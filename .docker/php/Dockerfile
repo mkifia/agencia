@@ -4,10 +4,20 @@ LABEL author="Moustakime KIFIA"
 RUN apt-get update \
     && apt-get install -y --no-install-recommends vim curl debconf subversion git apt-transport-https apt-utils \
     build-essential locales acl mailutils wget zip unzip \
-    gnupg gnupg1 gnupg2
+    libpng-dev libicu-dev libzip-dev libxml2-dev libexif-dev \
+    gnupg gnupg1 gnupg2 \
+    && docker-php-ext-install gd \
+    && docker-php-ext-install intl \
+    && docker-php-ext-install zip \
+    && docker-php-ext-install pdo \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install xml \
+    && docker-php-ext-install exif
 
 COPY php.ini /etc/php/7.3.11/php.ini
 COPY php-fpm-pool.conf /etc/php/7.3.11/pool.d/www.conf
+
+RUN echo 'date.timezone="Europe/Madrid"' >> /usr/local/etc/php/conf.d/date.ini
 
 RUN curl -sSk --silent --show-error https://getcomposer.org/installer | php -- --disable-tls && \
    mv composer.phar /usr/local/bin/composer
