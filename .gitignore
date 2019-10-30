@@ -1,0 +1,4 @@
+ng/
+api/
+.docker/data/*
+.env

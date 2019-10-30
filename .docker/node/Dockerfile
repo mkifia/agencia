@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:12
 
 USER node
 
@@ -8,7 +8,7 @@ ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 
 ENV HOME=/home/node
 
-WORKDIR $HOME/app
+WORKDIR /home/node/swoma/ng
 
 RUN npm i -g npm
 

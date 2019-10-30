@@ -9,7 +9,7 @@ RUN apt-get update \
 COPY php.ini /etc/php/7.3.11/php.ini
 COPY php-fpm-pool.conf /etc/php/7.3.11/pool.d/www.conf
 
-RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
+RUN curl -sSk --silent --show-error https://getcomposer.org/installer | php -- --disable-tls && \
    mv composer.phar /usr/local/bin/composer
 
 RUN groupadd dev -g 999
@@ -20,7 +20,7 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
     locale-gen
 
-WORKDIR /home/wwwroot/
+WORKDIR /home/swoma/api
 
 EXPOSE 9000
 CMD ["php-fpm"]

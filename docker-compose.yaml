@@ -7,9 +7,13 @@ services:
             - 82:80
         volumes:
             - .docker/config/vhosts:/etc/apache2/sites-enabled
-            - ${SYMFONY_APP}:/home/wwwroot/sf4
+            - ${SYMFONY_APP}:/home/swoma/api
         depends_on:
             - php
+        networks:
+            default:
+                aliases:
+                    - 'api.swoma.local'
 
     mysql:
         image: mysql:5.7
@@ -28,7 +32,7 @@ services:
         build: .docker/php
         container_name: sf4_php
         volumes:
-            - ${SYMFONY_APP}:/home/wwwroot/sf4
+            - ${SYMFONY_APP}:/home/swoma/api
         environment:
             - maildev_host=sf4_maildev
         depends_on:
@@ -44,22 +48,34 @@ services:
         links:
             - mysql
         environment:
-          PMA_HOST: mysql
+            PMA_HOST: mysql
+        networks:
+            default:
+                aliases:
+                    - 'phpmyadmin.swoma.local'
 
     maildev:
         image: djfarrelly/maildev
         container_name: sf4_maildev
         ports:
           - 8001:80
+        networks:
+            default:
+                aliases:
+                    - 'maildev.swoma.local'
 
     nginx:
         container_name: angular_nginx
         build: .docker/nginx
         volumes:
-                - ${ANGULAR_APP}/dist/Angular-project:/usr/share/nginx/html
+            - ${ANGULAR_APP}/dist/ng:/usr/share/nginx/html
         ports:
             - "81:80"
             - "443:443"
+        networks:
+            default:
+                aliases:
+                    - 'ng.swoma.local'
 
     node:
         build: .docker/node
@@ -67,12 +83,11 @@ services:
         ports:
             - 4200:4200
         volumes:
-            - ${ANGULAR_APP}:/home/node/app/frontend
+            - ${ANGULAR_APP}:/home/node/swoma/ng
         tty: true
         command:
             - /bin/sh
             - -c
-            - |
-                cd /home/node/app/frontend && npm start
+            - cd /home/node/swoma/ng && npm start
         expose:
             - "4200"
