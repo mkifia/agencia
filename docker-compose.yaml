@@ -4,7 +4,7 @@ services:
         build: .docker/apache
         container_name: sf4_apache
         ports:
-            - 82:80
+            - 8000:80
         volumes:
             - .docker/config/vhosts:/etc/apache2/sites-enabled
             - ${SYMFONY_APP}:/home/swoma/api
@@ -49,7 +49,7 @@ services:
         container_name: sf4_phpmyadmin
         restart: always
         ports:
-            - 8080:80
+            - 8002:80
         links:
             - mysql
         environment:
@@ -75,12 +75,12 @@ services:
         volumes:
             - ${ANGULAR_APP}/dist/ng:/usr/share/nginx/html
         ports:
-            - "81:80"
+            - "80:80"
             - "443:443"
         networks:
             default:
                 aliases:
-                    - 'ng.swoma.local'
+                    - 'app.swoma.local'
 
     node:
         build: .docker/node

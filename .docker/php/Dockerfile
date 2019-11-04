@@ -14,8 +14,8 @@ RUN apt-get update \
     && docker-php-ext-install xml \
     && docker-php-ext-install exif
 
-COPY php.ini /etc/php/7.3.11/php.ini
-COPY php-fpm-pool.conf /etc/php/7.3.11/pool.d/www.conf
+COPY php.ini /etc/php/php.ini
+COPY php-fpm-pool.conf /etc/php/pool.d/www.conf
 
 RUN echo 'date.timezone="Europe/Madrid"' >> /usr/local/etc/php/conf.d/date.ini
 
