@@ -2,26 +2,26 @@ version: '3.7'
 services:
     apache:
         build: .docker/apache
-        container_name: sf4_apache
+        container_name: 'symfony_apache'
         ports:
-            - 8000:80
+            - "8004:80"
         volumes:
             - .docker/config/vhosts:/etc/apache2/sites-enabled
-            - ${SYMFONY_APP}:/home/swoma/api
+            - ${BACK_APP}:/home/${APP_NAME}/${BACK_APP}
         depends_on:
             - php
         networks:
             default:
                 aliases:
-                    - 'api.swoma.local'
+                    - 'api.${APP_NAME}.local'
 
     mysql:
         image: mysql:5.7
-        container_name: sf4_mysql
+        container_name: 'symfony_mysql'
         volumes:
             - .docker/data/db:/var/lib/mysql
         ports:
-            - 3306:3306
+            - "3306:3306"
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -30,26 +30,26 @@ services:
         networks:
             default:
                 aliases:
-                    - 'mysql.swoma.local'
+                    - 'mysql.${APP_NAME}.local'
                     - 'mysql'
 
     php:
         build: .docker/php
-        container_name: sf4_php
+        container_name: 'symfony_php'
         volumes:
-            - ${SYMFONY_APP}:/home/swoma/api
+            - ${BACK_APP}:/home/${APP_NAME}/${BACK_APP}
         environment:
-            - maildev_host=sf4_maildev
+            - maildev_host=${BACK_APP}_maildev
         depends_on:
             - maildev
             - mysql
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: sf4_phpmyadmin
+        container_name: 'symfony_phpmyadmin'
         restart: always
         ports:
-            - 8002:80
+            - "8002:80"
         links:
             - mysql
         environment:
@@ -57,42 +57,42 @@ services:
         networks:
             default:
                 aliases:
-                    - 'phpmyadmin.swoma.local'
+                    - 'phpmyadmin.${APP_NAME}.local'
 
     maildev:
         image: djfarrelly/maildev
-        container_name: sf4_maildev
+        container_name: 'symfony_maildev'
         ports:
-          - 8001:80
+          - "8001:80"
         networks:
             default:
                 aliases:
-                    - 'maildev.swoma.local'
+                    - 'maildev.${APP_NAME}.local'
 
     nginx:
-        container_name: angular_nginx
+        container_name: 'angular_nginx'
         build: .docker/nginx
         volumes:
-            - ${ANGULAR_APP}/dist/ng:/usr/share/nginx/html
+            - ${FRONT_APP}/dist:/usr/share/nginx/html
         ports:
             - "80:80"
             - "443:443"
         networks:
             default:
                 aliases:
-                    - 'app.swoma.local'
+                    - 'app.${APP_NAME}.local'
 
     node:
         build: .docker/node
-        container_name: angular_node
+        container_name: 'angular_node'
         ports:
-            - 4200:4200
+            - "4200:4200"
         volumes:
-            - ${ANGULAR_APP}:/home/node/swoma/ng
+            - ${FRONT_APP}:/home/node/${APP_NAME}/${FRONT_APP}
         tty: true
         command:
             - /bin/sh
             - -c
-            - cd /home/node/swoma/ng && npm start
+            - cd /home/node/${APP_NAME}/${FRONT_APP} && npm start
         expose:
             - "4200"
