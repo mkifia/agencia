@@ -20,7 +20,7 @@ COPY php-fpm-pool.conf /etc/php/pool.d/www.conf
 RUN echo 'date.timezone="Europe/Madrid"' >> /usr/local/etc/php/conf.d/date.ini
 
 RUN curl -sSk --silent --show-error https://getcomposer.org/installer | php -- --disable-tls && \
-   mv composer.phar /usr/local/bin/composer
+    mv composer.phar /usr/local/bin/composer
 
 RUN groupadd dev -g 999
 RUN useradd dev -g dev -d /home/dev -m

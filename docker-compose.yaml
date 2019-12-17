@@ -90,9 +90,5 @@ services:
         volumes:
             - ${FRONT_APP}:/home/node/${APP_NAME}/${FRONT_APP}
         tty: true
-        command:
-            - /bin/sh
-            - -c
-            - cd /home/node/${APP_NAME}/${FRONT_APP} && npm start
         expose:
             - "4200"
