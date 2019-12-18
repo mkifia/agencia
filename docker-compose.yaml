@@ -14,6 +14,7 @@ services:
             default:
                 aliases:
                     - 'api.${APP_NAME}.local'
+                    - 'api'
 
     mysql:
         image: mysql:5.7
