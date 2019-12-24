@@ -33,4 +33,9 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
 WORKDIR /home/swoma/symfony
 
 EXPOSE 9000
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
