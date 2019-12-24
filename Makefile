@@ -4,6 +4,9 @@ DOCKER_COMPOSE := docker-compose
 up: ## Start all or c=<name> containers in foreground
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) up $(c)
 
+build: ## Start all or c=<name> containers in foreground
+	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) up -d --build $(c)
+
 start: ## Start all or c=<name> containers in background
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) up -d $(c)
 
