@@ -8,7 +8,7 @@ ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 
 ENV HOME=/home/node
 
-WORKDIR /home/node/swoma/angular
+WORKDIR /home/node/agencia/front
 
 RUN npm install -g @angular/cli@8.3.20
 

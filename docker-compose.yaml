@@ -2,7 +2,7 @@ version: '3.7'
 services:
     apache:
         build: .docker/apache
-        container_name: 'symfony_apache'
+        container_name: 'back_apache'
         ports:
             - "8004:80"
         volumes:
@@ -18,7 +18,7 @@ services:
 
     mysql:
         image: mysql:5.7
-        container_name: 'symfony_mysql'
+        container_name: 'back_mysql'
         volumes:
             - .docker/data/db:/var/lib/mysql
         ports:
@@ -36,7 +36,7 @@ services:
 
     php:
         build: .docker/php
-        container_name: 'symfony_php'
+        container_name: 'back_php'
         volumes:
             - ${BACK_APP}:/home/${APP_NAME}/${BACK_APP}
         environment:
@@ -47,7 +47,7 @@ services:
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: 'symfony_phpmyadmin'
+        container_name: 'back_phpmyadmin'
         restart: always
         ports:
             - "8002:80"
@@ -62,7 +62,7 @@ services:
 
     maildev:
         image: djfarrelly/maildev
-        container_name: 'symfony_maildev'
+        container_name: 'back_maildev'
         ports:
           - "8001:80"
         networks:
@@ -71,7 +71,7 @@ services:
                     - 'maildev.${APP_NAME}.local'
 
     nginx:
-        container_name: 'angular_nginx'
+        container_name: 'front_nginx'
         build: .docker/nginx
         volumes:
             - ${FRONT_APP}/dist:/usr/share/nginx/html
@@ -85,7 +85,7 @@ services:
 
     node:
         build: .docker/node
-        container_name: 'angular_node'
+        container_name: 'front_node'
         ports:
             - "4200:4200"
         volumes:

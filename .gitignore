@@ -1,5 +1,3 @@
-angular/
-symfony/
 .docker/data/*
-.env
 .idea
+.vscode
