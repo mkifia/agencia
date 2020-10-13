@@ -1,4 +1,4 @@
-FROM node:12.13.1
+FROM node:12.19.0
 
 USER node
 
@@ -10,7 +10,7 @@ ENV HOME=/home/node
 
 WORKDIR /home/node/agencia/front
 
-RUN npm install -g @angular/cli@8.3.20
+RUN npm install -g @angular/cli
 
 EXPOSE 4200
 
