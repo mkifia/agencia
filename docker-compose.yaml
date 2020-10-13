@@ -41,6 +41,7 @@ services:
             - ${BACK_APP}:/home/${APP_NAME}/${BACK_APP}
         environment:
             - maildev_host=${BACK_APP}_maildev
+            - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?serverVersion=mariadb-10.4.8
         depends_on:
             - maildev
             - mysql
