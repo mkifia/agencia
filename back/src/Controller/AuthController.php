@@ -40,6 +40,16 @@ class AuthController extends ApiController
     }
 
     /**
+     * @Route("/api/login", name="login")
+     */
+    public function login()
+    {
+        return new JsonResponse([
+            'test' => 'test'
+        ]);
+    }
+
+    /**
      * @param UserInterface $user
      * @param JWTTokenManagerInterface $JWTManager
      * @return JsonResponse
@@ -49,5 +59,4 @@ class AuthController extends ApiController
     {
         return new JsonResponse(['token' => $JWTManager->create($user)]);
     }
-
 }
